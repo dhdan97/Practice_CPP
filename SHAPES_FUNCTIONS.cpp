@@ -33,7 +33,7 @@ void CircArea(int r ){
 	cout<<"The Area of the circle would be: "<<Area<<endl;
 }
 //test
-int main(){
+int main(int argc, char const *argv[]){
  //array containing options	
  string shapes[] = {"TRIANGLE","SQUARE","RECTANGLE","CIRCLE"};
 //shape selection
