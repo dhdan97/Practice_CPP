@@ -4,7 +4,8 @@
 #include <vector>
 #include <string>
 
-
+/* There are a few errors that still must be fixed. Will troubleshoot in the future.
+8/26/18*/
 using namespace std; 
 
 void printProg(vector<char> P){
