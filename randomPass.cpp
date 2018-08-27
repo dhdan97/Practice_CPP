@@ -3,8 +3,11 @@
 #include<time.h>
 #include <string>
 using namespace std;
+/* The purpose of this program is to provide the user a random password that can consist of numbers, letters (UPPERCASE and LOWERCASE)
+and symbols */
 /*Works so far... Needs some optimization
 8/26/18*/
+
 int main(int argc, char const *argv[]){
 Newpass:
 srand(time(0));
