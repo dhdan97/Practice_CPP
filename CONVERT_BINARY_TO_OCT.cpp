@@ -1,39 +1,87 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <string>
 using namespace std;
-/*Started on: 8/29/18 : INCOMPLETE
-* This small program tanslates a BINARY NUMBER of r = 2 into OCTAL number wher r = 8
-* This is done by grouping the binary number into sets of 3
-*/
 
-//function that converts binary to decimal 
-void converBIN(vector<int> &check){
+//function that converts binary to octal. 
+void converBIN(vector<char> check){
+
+	//counter that checkes every 3 digits
+	int Count = 0;
+	//sum that gets pushed into octAns
+	int Sum = 0;
+	// values stored for 3 digit binary
+	int Value[]  = {4,2,1};
+	
+	// FINAL VALUE IN OCT
+	vector <int> octAns;
+	
+		for (int i  = 0 ;  i <check.size(); i--){
+			if ((check[i]=='1') && (Count < 3)){
+				Sum+=Value[Count];
+			}
+			Count++;
+			
+			if (Count == 3){
+			octAns.push_back(Sum);
+			Sum = 0;
+			Count = 0;
+			}
+	
+		}
+		//print out final value 
+	for (int j = 0 ; j<octAns.size();j++){
+		cout<<octAns[j];
+	}
+
+
 
 }
+
+
+
 
 int main(int argc, char const *argv[])
 {
 /*vector used to store the user's binary input along with an 
 empty vector to store the integer version */
-vector <int> binary_num;
+vector <char> binary_num;
 
 //Records user's binary into a string
 string ans; 
-//Records user's binary into an int
-int ans1; 
+
 //Records the user's answer whether they want to commit or not. 
 string decide = "Yes";
 //boolean to determine if user wants to keep keep using the program 
 bool keepConverting  = true; 
+//checks to see if the user's input is acceptable
+bool isLegit = false;
 
-//program loop 
+
+
+//BEGIN: program loop 
 while(keepConverting == true){
-	cout<<"PLEASE ENTER A BINARY NUMBER TO CONVERT"<<endl;
-	cin >> ans;
-	//stringstream *NEW*
-	stringstream tuns(ans);
-	tuns >> ans1;
+
+	
+// Loop that checks for valid user input 	
+	while (isLegit == false){
+		cout<<"PLEASE ENTER A BINARY NUMBER TO CONVERT"<<endl;
+		cin >> ans;
+		for (int j  = 0 ; j <ans.length(); j++){
+			if ((ans[j] == '0') || (ans[j] == '1')){
+			isLegit = true;	
+			}
+		else isLegit = false;
+	}
+}
+	
+//takes the user input and stores it in a vector
+for (int i  = 0 ; i <ans.length(); i++){
+	binary_num.push_back(ans[i]);
+}
+ converBIN(binary_num);
+
 
 //Asks to see if the user wants to keep using the program
 //if not, the program will terminate itself by switching the bool keep convering to "false"
@@ -50,7 +98,9 @@ while(keepConverting == true){
 		keepConverting = true;
 	}
 }
+
 cout<<"THANK YOU FOR USING MY PROGRAM  :D"<<endl;
+
 
 	return 0;
 }
