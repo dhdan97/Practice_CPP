@@ -3,6 +3,13 @@
 #include <vector>
 #include <string>
 using namespace std;
+/* Make a program that converts binary to decimal, octal , hex , etc...
+Practice Program for CSC 21200
+8/30/18 */
+
+
+// first function works assuming that that inputlength % 3 == 0
+
 
 //function that converts binary to octal. 
 void converBIN(vector<char> check){
@@ -16,36 +23,35 @@ void converBIN(vector<char> check){
 	
 	// FINAL VALUE IN OCT
 	vector <int> octAns;
-	
-		for (int i  = 0 ;  i <check.size(); i--){
+	//check where in binary it is weighted
+	for (int i  = 0 ;  i <check.size(); i++){
 			if ((check[i]=='1') && (Count < 3)){
 				Sum+=Value[Count];
 			}
-			Count++;
-			
+		//counter resets every 3 digits
+			if (Count < 3){
+				Count++;
+			}
 			if (Count == 3){
 			octAns.push_back(Sum);
 			Sum = 0;
 			Count = 0;
 			}
-	
 		}
-		//print out final value 
+		
+	//print out final value 
 	for (int j = 0 ; j<octAns.size();j++){
-		cout<<octAns[j];
+		cout<<octAns[j]<<endl;
 	}
-
-
-
+	
 }
-
-
+//end converBIN
 
 
 int main(int argc, char const *argv[])
 {
 /*vector used to store the user's binary input along with an 
-empty vector to store the integer version */
+ */
 vector <char> binary_num;
 
 //Records user's binary into a string
@@ -59,10 +65,8 @@ bool keepConverting  = true;
 bool isLegit = false;
 
 
-
 //BEGIN: program loop 
 while(keepConverting == true){
-
 	
 // Loop that checks for valid user input 	
 	while (isLegit == false){
@@ -82,7 +86,6 @@ for (int i  = 0 ; i <ans.length(); i++){
 }
  converBIN(binary_num);
 
-
 //Asks to see if the user wants to keep using the program
 //if not, the program will terminate itself by switching the bool keep convering to "false"
 	cout<<"WOULD YOU LIKE TO CONVERT ANOTHER BINARY NUMBER ?  ( Y / N )"<<endl;
@@ -100,7 +103,6 @@ for (int i  = 0 ; i <ans.length(); i++){
 }
 
 cout<<"THANK YOU FOR USING MY PROGRAM  :D"<<endl;
-
 
 	return 0;
 }
