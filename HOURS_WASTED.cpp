@@ -43,8 +43,8 @@ float ExPFunc () {
 	//Fancy way of evaluating input and making sure it is acceptable
 	while (uinput == false){
 	 	cin >> charSelec;
-		if ((((int)charSelec >64) && ((int)charSelec <69))|| 
-		    (((int)charSelec>96) && ((int)charSelec <101))
+		if ((((int)charSelec > 64) && ((int)charSelec < 69))|| 
+		    (((int)charSelec > 96) && ((int)charSelec < 101))
 		   ){
 		    uinput = true;
 			}	
@@ -52,7 +52,7 @@ float ExPFunc () {
 	
 	//making user input understandable for switch statement
 	if ((int)charSelec > 96){
-	Selec = (int)charSelec -32; 	
+	Selec = (int)charSelec - 32; 	
 	}
 	else {
 	Selec = (int)charSelec;
