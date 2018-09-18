@@ -14,19 +14,19 @@ E: 9/17/18
 //Function that takes input and makes sure it's acceptable 
 string isLegit(){
 	//checks to see if the user's input is acceptable
-		string uinput; 
-		bool isLegit = false;	
-		while (isLegit == false){
-		cout<<"PLEASE ENTER A BINARY NUMBER TO CONVERT"<<endl;
-		cin >> uinput;
-			for (int j  = 0 ; j <uinput.length(); j++){
-				if ((uinput[j] == '0') || (uinput[j] == '1')){
-				isLegit = true;	
-				}
-				else isLegit = false;
-				}
+	string uinput; 
+	bool isLegit = false;	
+	while (isLegit == false){
+	cout<<"PLEASE ENTER A BINARY NUMBER TO CONVERT"<<endl;
+	cin >> uinput;
+		for (int j  = 0 ; j <uinput.length(); j++){
+			if ((uinput[j] == '0') || (uinput[j] == '1')){
+			isLegit = true;	
+			}
+			else isLegit = false;
 		}
-		return uinput;
+	}
+	return uinput;
 }
 // END isLegit
 
