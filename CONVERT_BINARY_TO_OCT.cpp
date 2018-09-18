@@ -5,15 +5,13 @@
 using namespace std;
 /* Make a program that converts binary to decimal, octal , hex , etc...
 Practice Program for CSC 21200
-8/30/18 */
+S: 8/30/18 
+E: 9/17/18
+*/ 
 
+//OCTAL function is now complete ... final output needs some work but right now it is at 99%
 
-// first function works assuming that that inputlength % 3 == 0
-
-
-//function that converts binary to octal. 
-
-
+//Function that takes input and makes sure it's acceptable 
 string isLegit(){
 	//checks to see if the user's input is acceptable
 		string uinput; 
@@ -30,48 +28,57 @@ string isLegit(){
 		}
 		return uinput;
 }
-// end function
+// END isLegit
 
 
-
-// function that modifies the input by adding ISG to make accurate computations 
-
-void fixSize(vector<char>& fix_vec){
-	//amount to shift the vector to add in ISG 
-	int vecMod = (fix_vec.size()-1)%3;
-	int shift = 3 - vecMod;
-	if (vecMod != 0){
-		
-	}
+//Function that modifies the input by adding ISD to make accurate computations 
+void fixSize(vector<char>& fixVec){
+	//Temporary vector to hold original values 
+	vector<char>temp;
+	//Checks to see if input has sets of 3
+	int doFix = fixVec.size()%3;
+	//Computes # of ISD to add to the left of the binary number
+	int ISD = 3 - doFix;
 	
-
-	
-
-	
-	
+	//If the input does not come in perfect sets of 3 then add remaining ISD
+	 if (doFix != 0 ){
+	 	//COPY vector to a temp vector 
+		//NOTE: the order of saving the vector
+	 	for (int i = 0 ; i < fixVec.size() ; i++){
+	 		temp.push_back(fixVec[i]);
+		 }
+		 //CLEAR original vector
+		 fixVec.clear();
+		 
+		 //ADD ISD to the original vector
+		for(int j = 0 ; j < ISD ;j++){
+			fixVec.push_back('0');
+		}
+		//ADD remaining original digits
+		for (int k = 0 ; k < temp.size() ; k++){
+			fixVec.push_back(temp[k]);
+		} 	
+	}	
 }
-// end fixSize function
+//END fixSize	
 
-
-
-
+//Function that converts BINARY into OCTAL number
 void converBIN(vector<char> check){
-
-	//counter that checkes every 3 digits
+	//Counter that checkes every 3 digits
 	int Count = 0;
-	//sum that gets pushed into octAns
+	//Sum that gets pushed into octAns
 	int Sum = 0;
-	// values stored for 3 digit binary
+	//Values stored for 3 digit binary
 	int Value[]  = {4,2,1};
-	
-	// FINAL VALUE IN OCT
+	//VECTOR THAT STORES FINAL VALUE OF OCTAL NUMBER
 	vector <int> octAns;
-	//check where in binary it is weighted
+	
+	//Check where in binary it is weighted
 	for (int i  = 0 ;  i <check.size(); i++){
 			if ((check[i]=='1') && (Count < 3)){
 				Sum+=Value[Count];
 			}
-		//counter resets every 3 digits
+		//Counter resets every 3 digits
 			if (Count < 3){
 				Count++;
 			}
@@ -82,45 +89,52 @@ void converBIN(vector<char> check){
 			}
 		}
 		
-	//print out final value 
+	//Print out final OCTAL value 
 	for (int j = 0 ; j<octAns.size();j++){
 		cout<<octAns[j]<<endl;
-	}
-	
+	}	
 }
-//end converBIN
+//END converBIN
 
 
 int main(int argc, char const *argv[])
 {
-/*vector used to store the user's binary input along with an 
- */
+/*Vector used to store the user's binary input */
 vector <char> binary_num;
-
 //Records user's binary into a string
 string ans; 
-
-//Records the user's answer whether they want to commit or not. 
+//Records the user's answer whether they want to commit or not
 string decide = "Yes";
-//boolean to determine if user wants to keep keep using the program 
+//Boolean that determines if user wants to use program again
 bool keepConverting  = true; 
+
 
 //BEGIN: program loop 
 while(keepConverting == true){
 	
-// Loop that checks for valid user input 	
+//Function that checks for valid input	
 ans = isLegit();
 	
-//takes the user input and stores it in a vector
+//Takes the user input and stores it in a vector
 for (int i  = 0 ; i <ans.length(); i++){
 	binary_num.push_back(ans[i]);
 }
 
- /////****fixSize(binary_num);
- converBIN(binary_num);
-
+//Shows the new input if any ISD was added
+fixSize(binary_num);
+cout << "THIS IS THE NEW VECTOR !! "<<endl;
+for (int ksi = 0 ; ksi < binary_num.size();ksi++){
+cout<< binary_num[ksi];
+}
+cout<<"\n";
+	
+	
+//Actual conversion into OCTAL!! 
+converBIN(binary_num);
+ 
 //Asks to see if the user wants to keep using the program
-//if not, the program will terminate itself by switching the bool keep convering to "false"
+//If YES, then clear input vector and ask for a new input
+//If NO,  the program will terminate itself by switching the bool keep convering to "false"
 	cout<<"WOULD YOU LIKE TO CONVERT ANOTHER BINARY NUMBER ?  ( Y / N )"<<endl;
 	cin >> decide;
 	if ((decide == "n")||
@@ -131,10 +145,10 @@ for (int i  = 0 ; i <ans.length(); i++){
 		keepConverting = false;
 	}
 	else {
+		binary_num.clear();
 		keepConverting = true;
 	}
 }
-
 cout<<"THANK YOU FOR USING MY PROGRAM  :D"<<endl;
 
 	return 0;
