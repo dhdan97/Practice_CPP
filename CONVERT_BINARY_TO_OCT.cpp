@@ -12,6 +12,49 @@ Practice Program for CSC 21200
 
 
 //function that converts binary to octal. 
+
+
+string isLegit(){
+	//checks to see if the user's input is acceptable
+		string uinput; 
+		bool isLegit = false;	
+		while (isLegit == false){
+		cout<<"PLEASE ENTER A BINARY NUMBER TO CONVERT"<<endl;
+		cin >> uinput;
+			for (int j  = 0 ; j <uinput.length(); j++){
+				if ((uinput[j] == '0') || (uinput[j] == '1')){
+				isLegit = true;	
+				}
+				else isLegit = false;
+				}
+		}
+		return uinput;
+}
+// end function
+
+
+
+// function that modifies the input by adding ISG to make accurate computations 
+
+void fixSize(vector<char>& fix_vec){
+	//amount to shift the vector to add in ISG 
+	int vecMod = (fix_vec.size()-1)%3;
+	int shift = 3 - vecMod;
+	if (vecMod != 0){
+		
+	}
+	
+
+	
+
+	
+	
+}
+// end fixSize function
+
+
+
+
 void converBIN(vector<char> check){
 
 	//counter that checkes every 3 digits
@@ -61,29 +104,19 @@ string ans;
 string decide = "Yes";
 //boolean to determine if user wants to keep keep using the program 
 bool keepConverting  = true; 
-//checks to see if the user's input is acceptable
-bool isLegit = false;
-
 
 //BEGIN: program loop 
 while(keepConverting == true){
 	
 // Loop that checks for valid user input 	
-	while (isLegit == false){
-		cout<<"PLEASE ENTER A BINARY NUMBER TO CONVERT"<<endl;
-		cin >> ans;
-		for (int j  = 0 ; j <ans.length(); j++){
-			if ((ans[j] == '0') || (ans[j] == '1')){
-			isLegit = true;	
-			}
-		else isLegit = false;
-	}
-}
+ans = isLegit();
 	
 //takes the user input and stores it in a vector
 for (int i  = 0 ; i <ans.length(); i++){
 	binary_num.push_back(ans[i]);
 }
+
+ /////****fixSize(binary_num);
  converBIN(binary_num);
 
 //Asks to see if the user wants to keep using the program
