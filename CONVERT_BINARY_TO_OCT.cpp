@@ -116,17 +116,17 @@ while(keepConverting == true){
 ans = isLegit();
 	
 //Takes the user input and stores it in a vector
-for (int i  = 0 ; i <ans.length(); i++){
+	for (int i  = 0 ; i <ans.length(); i++){
 	binary_num.push_back(ans[i]);
-}
+	}
 
 //Shows the new input if any ISD was added
 fixSize(binary_num);
 cout << "THIS IS THE NEW VECTOR !! "<<endl;
-for (int ksi = 0 ; ksi < binary_num.size();ksi++){
-cout<< binary_num[ksi];
-}
-cout<<"\n";
+	for (int ksi = 0 ; ksi < binary_num.size();ksi++){
+	cout<< binary_num[ksi];
+	}
+	cout<<"\n";
 	
 	
 //Actual conversion into OCTAL!! 
@@ -135,8 +135,8 @@ converBIN(binary_num);
 //Asks to see if the user wants to keep using the program
 //If YES, then clear input vector and ask for a new input
 //If NO,  the program will terminate itself by switching the bool keep convering to "false"
-	cout<<"WOULD YOU LIKE TO CONVERT ANOTHER BINARY NUMBER ?  ( Y / N )"<<endl;
-	cin >> decide;
+cout<<"WOULD YOU LIKE TO CONVERT ANOTHER BINARY NUMBER ?  ( Y / N )"<<endl;
+cin >> decide;
 	if ((decide == "n")||
 	 	(decide == "no")|| 
 	 	(decide == "No")|| 
