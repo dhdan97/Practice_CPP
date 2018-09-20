@@ -2,11 +2,12 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include  <cstdio>
 using namespace std;
 /* Make a program that converts binary to decimal, octal , hex , etc...
 Practice Program for CSC 21200
 S: 8/30/18 
-E: 9/17/18
+E: 9/20/18
 */ 
 
 //OCTAL function is now complete ... final output needs some work but right now it is at 99%
@@ -17,19 +18,31 @@ string isLegit(){
 	string uinput; 
 	bool isLegit = false;	
 	while (isLegit == false){
-	cout<<"PLEASE ENTER A BINARY NUMBER TO CONVERT"<<endl;
+	printf("%s \n","PLEASE ENTER A BINARY NUMBER TO CONVERT");
 	cin >> uinput;
 		for (int j  = 0 ; j <uinput.length(); j++){
 			if ((uinput[j] == '0') || (uinput[j] == '1')){
 			isLegit = true;	
 			}
-			else isLegit = false;
+			else {
+				printf("%s \n","PLEASE ENTER A VALID INPUT");
+				isLegit = false;
+			}
 		}
 	}
 	return uinput;
 }
 // END isLegit
 
+//Function that capitalizes a string
+string Upper(string &upper){
+	
+for (int i = 0 ; i<upper.length(); i++){
+	upper[i] = toupper(upper[i]);
+}
+	return upper;
+}
+//END Upper
 
 //Function that modifies the input by adding ISD to make accurate computations 
 void fixSize(vector<char>& fixVec){
@@ -122,7 +135,7 @@ ans = isLegit();
 
 //Shows the new input if any ISD was added
 fixSize(binary_num);
-cout << "THIS IS THE NEW VECTOR !! "<<endl;
+printf("%s \n","THIS IS THE NEW VECTOR !!");
 	for (int ksi = 0 ; ksi < binary_num.size();ksi++){
 	cout<< binary_num[ksi];
 	}
@@ -135,13 +148,13 @@ converBIN(binary_num);
 //Asks to see if the user wants to keep using the program
 //If YES, then clear input vector and ask for a new input
 //If NO,  the program will terminate itself by switching the bool keep convering to "false"
-cout<<"WOULD YOU LIKE TO CONVERT ANOTHER BINARY NUMBER ?  ( Y / N )"<<endl;
+printf("%s \n","WOULD YOU LIKE TO CONVERT ANOTHER BINARY NUMBER?");
 cin >> decide;
-	if ((decide == "n")||
-	 	(decide == "no")|| 
-	 	(decide == "No")|| 
-		(decide == "NO")||
-		(decide == "N")){
+Upper(decide);
+
+
+	if ((decide == "N")||
+	 	(decide == "NO")){
 		keepConverting = false;
 	}
 	else {
@@ -149,7 +162,7 @@ cin >> decide;
 		keepConverting = true;
 	}
 }
-cout<<"THANK YOU FOR USING MY PROGRAM  :D"<<endl;
+printf("%s \n","THANK YOU FOR USING MY PROGRAM :D");
 
 	return 0;
 }
