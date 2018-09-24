@@ -1,13 +1,13 @@
 #include <iostream>
 #include <sstream> //For istringstream
 #include <vector>
-#include <math.h>
+#include <cmath>
 using namespace std;
 /* Make a function that computes the vector's magnitude based on it's components. 
    Then make a function that calculates the dot product of 2 vectors
    NOTE: will try to make vecEdit into a recursive function.
    S: 9/20/18
-   E: ... 
+   E: VecCalc --- 9/24/18 
 */
 
 //Function that removes parenthesis and spaces and stores numbers in a vector.
@@ -48,11 +48,29 @@ int transf;
 //END vecEdit. 
 
 
-//Find the Magnitude of the vector WOP.
-int vecCalc(vector<int> calc){
-	
+//Find the Magnitude of the vector NEED TO TEST.
+int vecMag(vector<int> calc){
+//Holds the squared of a component
+int hold;
+//Adds up the components
+int sum; 
+//Recieves the summation of the components squared.
+int gTotal;
+// Loop caclulating the sum of the components squared
+	for (int i = 0 ; i<calc.size() ; i++){
+		hold = pow(calc[i],2);
+		sum+=hold;
+	}
+	gTotal = sqrt(sum);
+	return gTotal;
 }
 //END vecCalc.
+
+//Calculates the dot product of a vector
+int adtb(const vector<int> a, const vector<int> b){
+	
+}
+//END adtb
 
 
 int main(int argc, char const *argv[])
