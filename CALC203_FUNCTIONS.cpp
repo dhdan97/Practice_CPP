@@ -83,7 +83,7 @@ string uinput;
 vector<int>components;
 	
 while (findMag == true){
-	  cout<<"\t\tPlease enter the components of the vector in the format: \n\t\t\t\t\t (X,Y,Z)\n\t\t";
+	  cout<<"Please enter the components of the vector in the format: \n\t(X,Y,Z)\n";
 	  getline(cin,uinput);
 	  vecEdit(uinput,components);
 	  for (int i = 0 ; i <components.size(); i++){
