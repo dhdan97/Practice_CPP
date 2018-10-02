@@ -15,7 +15,7 @@ void addtoVec (string inp,vector<char>& transf){
 	
 
 }
-int main(E) 
+int main() 
 { 
 
 string uinput; 
