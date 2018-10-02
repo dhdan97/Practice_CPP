@@ -2,27 +2,43 @@
 // and one by one push values. 
 #include <bits/stdc++.h> 
 #include <iostream>
+#include <string>
 using namespace std; 
-  
-int main() 
+
+void addtoVec (string inp,vector<char>& transf){
+	 
+		
+	for (size_t i = 0 ; i < inp.length(); i++ ){
+		transf.push_back(inp[i]);
+	}
+	
+	
+
+}
+int main(E) 
 { 
-    
+
+string uinput; 
+vector<vector<char>> mainVec;
+vector<char> store; 
+
+
+getline(cin >> uinput);
+
+for (size_t k = 0 ; k <= uinput.length() ; k++ ){
+	getline(cin >> uinput);
+	addtovec(uinput,store);
+	mainVec.push_back(store);
+	store.clear();	
+}
+
+
   
-    // Create a vector of size n with 
-    // all values as 10. 
+for ( size_t j = 0 ; j < mainVec.size(); j++){
+	cout<<mainVec[j]<<"\n";
+} 
     
-   
     
-    for (int i = 0; i< 61 ; i++ ){
-        int n = 80;
-        vector<char> vect(n, '.');
-        
-        for (size_t j = 0 ; j< vect.size(); j++){
-        cout<<vect[j]<<" ";
-         }
-    cout<<"\n";
-   
-    }
     
      return 0; 
 }
