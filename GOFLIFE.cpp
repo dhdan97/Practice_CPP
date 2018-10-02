@@ -1,44 +1,55 @@
-// CPP program to create an empty vector 
-// and one by one push values. 
-#include <bits/stdc++.h> 
+#include <vector> 
 #include <iostream>
 #include <string>
 using namespace std; 
 
-void addtoVec (string inp,vector<char>& transf){
-	 
-		
-	for (size_t i = 0 ; i < inp.length(); i++ ){
+/*GAME OF LIFE REMASTERED
+S: 10/2/18
+*/
+
+
+//function that stores the element of string into a vector
+void addtoStor(string inp,vector<char>& transf){
+	for (size_t i = 0 ; i <=inp.length(); i++ ){
 		transf.push_back(inp[i]);
+	}	
+}//END "addtoStore"
+
+
+int main(int argc, char const *argv[])
+{
+//string to store user input 
+string uinput; 
+//main vector of vectors
+vector<vector<char> > mainVec;
+//vector used to push back into mainVec
+vector<char> store; 
+//keeps record of store vector and its size 
+size_t storeSz;
+//DEBUGGING
+bool storeVec = true;
+
+//takes first iteration as reference
+	while (getline(cin,uinput) && (storeVec == true)){
+	addtoStor(uinput,store);
+	mainVec.push_back(store);
+	
+//stores the size of the store vector before clearing 
+	storeSz = store.size();
+//clears store vector
+	store.clear();	
+	storeVec = false;
 	}
 	
-	
-
-}
-int main() 
-{ 
-
-string uinput; 
-vector<vector<char>> mainVec;
-vector<char> store; 
-
-
-getline(cin >> uinput);
-
-for (size_t k = 0 ; k <= uinput.length() ; k++ ){
-	getline(cin >> uinput);
-	addtovec(uinput,store);
-	mainVec.push_back(store);
-	store.clear();	
+//DEBUGGING
+	cout<<"NEXT ITERATION\n";
+//prints out stored iteration	
+	for (size_t j = 0 ; j < mainVec.size(); j++){
+	for (size_t l = 0 ; l < storeSz; l++){
+		cout<<mainVec[j][l];
+		}	
+	} 
+     return 0;
 }
 
 
-  
-for ( size_t j = 0 ; j < mainVec.size(); j++){
-	cout<<mainVec[j]<<"\n";
-} 
-    
-    
-    
-     return 0; 
-}
