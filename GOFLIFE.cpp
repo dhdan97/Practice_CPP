@@ -27,20 +27,19 @@ vector<char> store;
 //keeps record of store vector and its size 
 size_t storeSz;
 //DEBUGGING
-bool storeVec = true;
+
 
 //takes first iteration as reference
-	while (getline(cin,uinput) && (storeVec == true)){
+	while (getline(cin,uinput)){
 	addtoStor(uinput,store);
 	mainVec.push_back(store);
 	
 //stores the size of the store vector before clearing 
 	storeSz = store.size();
 //clears store vector
-	store.clear();	
-	storeVec = false;
-	}
-	
+	store.clear();
+    }
+
 //DEBUGGING
 	cout<<"NEXT ITERATION\n";
 //prints out stored iteration	
@@ -48,8 +47,11 @@ bool storeVec = true;
 	for (size_t l = 0 ; l < storeSz; l++){
 		cout<<mainVec[j][l];
 		}	
+        cout<<"\n";
 	} 
-     return 0;
+
+
+return 0;
+
+
 }
-
-
