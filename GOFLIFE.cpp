@@ -1,6 +1,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <fstream>
+
 using namespace std;
 
 /*GAME OF LIFE REMASTERED
@@ -8,47 +10,81 @@ S: 10/2/18
 */
 
 
-//function that stores the element of string into a vector
-void addtoStor(string inp,vector<char>& transf){
+
+void addtoSmall(string inp,vector<char>& small2){
 	for (size_t i = 0 ; i <=inp.length(); i++ ){
-		transf.push_back(inp[i]);
+		small2.push_back(inp[i]);
 	}
-}//END "addtoStore"
+}
+
+
+//IGNORE
+void outFile(const string fname,vector<vector<char> > vec){
+	ofstream myfile;
+	myfile.open(fname);
+	for (size_t i = 0; i <vec.size(); i++){
+			for (size_t j = 0 ; j<vec[i].size();j++){
+          myfile << vec[i][j];
+        }
+		}
+		myfile.close();
+}
+
+
+
+void readFile(const string readFile,vector<vector<char> > &big){
+  vector<char> small;
+  string Rinp;
+
+  ifstream myfile(readFile);
+
+  if(myfile.is_open()){
+    while(getline(myfile,Rinp)){
+        if(Rinp.length()==0){
+          break;
+          }
+        addtoSmall(Rinp,small);
+        big.push_back(small);
+        small.clear();
+
+      }
+  myfile.close();
+  }
+}
+
+
 
 
 int main(int argc, char const *argv[])
 {
-//string to store user input
-string uinput;
+
+string inFile;
+string ofile;
 //main vector of vectors
 vector<vector<char> > mainVec;
-//vector used to push back into mainVec
-vector<char> store;
-//keeps record of store vector and its size
-size_t storeSz;
-//DEBUGGING
 
 
-//takes first iteration as reference
-	while (getline(cin,uinput)){
-	addtoStor(uinput,store);
-	mainVec.push_back(store);
 
-//stores the size of the store vector before clearing
-	storeSz = store.size();
-//clears store vector
-	store.clear();
-    }
 
-//DEBUGGING
-	cout<<"NEXT ITERATION\n";
-//prints out stored iteration
-	for (size_t j = 0 ; j < mainVec.size(); j++){
-	for (size_t l = 0 ; l < storeSz; l++){
-		cout<<mainVec[j][l];
-		}
-        cout<<"\n";
-	}
+  cout<<"Please enter the name of file you want to read\n";
+  cin >> inFile;
+
+  readFile(inFile,mainVec);
+
+
+  cout<<"enter where you want to transfer\n";
+  cin >> ofile;
+
+  outFile(ofile,mainVec);
+
+
+
+
+
+
+
+
+
 
 
 return 0;
