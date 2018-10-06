@@ -23,9 +23,10 @@ void outFile(const string fname,vector<vector<char> > vec){
 	ofstream myfile;
 	myfile.open(fname);
 	for (size_t i = 0; i <vec.size(); i++){
-			for (size_t j = 0 ; j<vec[i].size();j++){
+			for (size_t j = 0 ; j<vec[i].size()-1;j++){
           myfile << vec[i][j];
         }
+        myfile << endl;
 		}
 		myfile.close();
 }
@@ -64,7 +65,7 @@ string ofile;
 vector<vector<char> > mainVec;
 
 
-
+//For DEBUGGING purposes
 
   cout<<"Please enter the name of file you want to read\n";
   cin >> inFile;
@@ -76,15 +77,6 @@ vector<vector<char> > mainVec;
   cin >> ofile;
 
   outFile(ofile,mainVec);
-
-
-
-
-
-
-
-
-
 
 
 return 0;
