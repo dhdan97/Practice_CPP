@@ -4,7 +4,7 @@
 #include <fstream>
 using namespace std;
 //function that applies the logic to each cell
-size_t countNbr(size_t k, size_t l,vector<vector<bool> > &Aworld){
+size_t countNbr(size_t k, size_t l,vector<vector<bool> > Aworld){
   //sets neighbor count to 0
   size_t count = 0;
 
@@ -16,29 +16,24 @@ size_t countNbr(size_t k, size_t l,vector<vector<bool> > &Aworld){
           if ((l != 0) && (l!= Aworld[k].size()-1)){
             //CHECKS TOP AND BOTTOM VECTORS and SIDE NEIGHBORS
             for (size_t c = l-1 ; c <= l + 1; c++){
-              //TOP/BOTTOM VECTORS\
-              if (Aworld[k-1][c] == true){
-                  count++;
-              }
-              if (Aworld[k+1][c] == true){
-                  count++;
-              }
-              //SIDE NEIGHBORS
-              if (c !=  l){
-                if(Aworld[k][c] ==true){
+               if(Aworld[k+1][l] ==true){
                   count++;
                 }
-                if(Aworld[k][c] ==true){
+                if(Aworld[k-1][l] ==true){
+                  count++;
+                }
+               if (c !=  l){
+                if(Aworld[k][l] ==true){
+                  count++;
+                }
+                if(Aworld[k][l] ==true){
                   count++;
                 }
               }
-          }
-        }
-
-      return count;
-
-  }
-
+            } //ALL NEIGHBORS
+          } //INNER IF
+        }   //OUTER IF
+return count;
 }
 
 
@@ -46,39 +41,36 @@ size_t countNbr(size_t k, size_t l,vector<vector<bool> > &Aworld){
 
 
 
-vector<vector<bool> >lifeLogic(vector<vector<bool> > world)
+void lifeLogic(vector<vector<bool> > &world)
 {
   //copy vector to apply changes...we will be looking at the original world
-  vector<vector<bool> > worldC(world.size()-1,(vector<bool>(world[0].size()-1,false)));
-  size_t nbrCount =0;
-
-for (size_t i  = 0 ; i < world.size(); i++){
-
+  vector<vector<bool> > worldC= world;
+  size_t nbrCount
+for (size_t b  = 0 ; b < world.size(); b++){
     //iterates through each element within the small vector
-    for (size_t j = 0 ; j< world[i].size() ; j++){
+    for (size_t s = 0 ; s< world[b].size() ; s++){
         nbrCount = 0;
-      nbrCount = countNbr(i,j,world);
+        nbrCount = countNbr(i,j,worldC);
       //APPLY README RULES for count
-        if (nbrCount ==3) worldC[i][j] =true;
-        if (nbrCount > 3) worldC[i][j] =false;
-        if (nbrCount < 2) worldC[i][j] =false;
+        if (nbrCount ==3) world[b][s] =true;
+        if (nbrCount > 3) world[b][s] =false;
+        if (nbrCount < 2) world[b][s] =false;
       }
   }
-
-  return worldC;
-
-
   //counts neighbors AND applies logic
 }
 
 void addtoSmall(string inp,vector<bool>& small2){//takes a string and a vector to change said vector such that every char in the string is now an element of the vector UPDATE: Should now CONVERT files with '.' and '0' INTO BOOLEAN when pushing back.
+  bool DA;
     for (size_t i=0; i<=inp.length(); i++){
     if(inp[i] == '.'){
-      small2.push_back(false); /* dead x_x */
-    }
+      DA = false;
+      small2.push_back(DA); /* dead x_x */
+      }
     if(inp[i] == '0'){
-      small2.push_back(true); /* alive 8D */
-    }
+      DA = true;
+      small2.push_back(DA); /* alive 8D */
+      }
     }
 }
 
@@ -121,9 +113,10 @@ vector<vector<bool> > mainVec;//Main vector of vectors to be read and used to wr
   cout<<"Please enter the name of file you want to read\n";
   cin >> inFile;
   readFile(inFile,mainVec);
+  lifeLogic(mainVec);
   cout<<"enter where you want to transfer\n";
   cin >> ofile;
-  mainVec = lifeLogic(mainVec);
+
   outFile(ofile,mainVec);
 return 0;
 }
