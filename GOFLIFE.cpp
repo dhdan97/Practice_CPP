@@ -1,83 +1,210 @@
+/*
+ * CSc103 Project 3: Game of Life
+ * See readme.html for details.
+ * Please list all references you made use of in order to complete the
+ * assignment: your classmates, websites, etc.  Aside from the lecture notes
+ * and the book, please list everything.  And remember- citing a source does
+ * NOT mean it is okay to COPY THAT SOURCE.  What you submit here **MUST BE
+ * YOUR OWN WORK**.
+ * References:
+ http://www.cplusplus.com/doc/tutorial/files/
+ https://www-cs.ccny.cuny.edu/~wes/CSC103/gdb.html
+ https://www.geeksforgeeks.org/2d-vector-in-cpp-with-user-defined-size/
+ https://www.geeksforgeeks.org/ways-copy-vector-c/
+ https://syntaxdb.com/ref/cpp/vectors
+ http://www.cplusplus.com/forum/beginner/231421/
+ https://en.wikibooks.org/wiki/C%2B%2B_Programming/Code/IO#fstream
+ *
+ *
+ * Finally, please indicate approximately how many hours you spent on this:
+ * #hours:~30 hrs
+ */
+
 #include <vector>
 #include <iostream>
 #include <string>
-#include <fstream>
+#include <fstream> // to take in file path
+#include <cstdio>
+#include <stdlib.h> // for exit();
+#include <getopt.h> // to parse long arguments.
+#include <unistd.h> // sleep
 using namespace std;
 
-/*GAME OF LIFE REMASTERED
-S: 10/2/18
-*/
-//function that applies all the beautiful logic of life
-void lifeLogic(vector<vector<char> > &world){
+static const char* usage =
+"Usage: %s [OPTIONS]...\n"
+"Text-based version of Conway's game of life.\n\n"
+"   --seed,-s     FILE     read start state from FILE.\n"
+"   --world,-w    FILE     store current world in FILE.\n"
+"   --fast-fw,-f  NUM      evolve system for NUM generations and quit.\n"
+"   --help,-h              show this message and exit.\n";
 
+string inFile = "/file/path/to/be/read";
+string ofile = "/file/path/to/be/written";
+size_t max_gen = 0;
+vector<vector<bool> > mainVec;//Main vector of vectors to be read and used to write to
+
+void addtoSmall(string inp,vector<bool>& small2){//takes a string and a vector to change said vector such that every char in the string is now an element of the vector UPDATE: Should now CONVERT files with '.' and '0' INTO BOOLEAN when pushing back.
+    for (size_t i=0; i<=inp.length(); i++){
+    if(inp[i] == '.'){
+      small2.push_back(false); /* dead x_x */
+    }
+    if(inp[i] == 'O'){
+      small2.push_back(true); /* alive 8D */
+    }
+    }
 }
 
-//take each element of a string and convert it into each element of a vector
-void addtoSmall(string inp,vector<char>& small2){
-	for (size_t i = 0 ; i <=inp.length(); i++ ){
-		small2.push_back(inp[i]);
-	}
-}
-
-//transfers the vector of vector<char> into output file "fname"
-void outFile(const string fname,vector<vector<char> > vec){
-	ofstream myfile;
-	myfile.open(fname);
-	for (size_t i = 0; i <vec.size(); i++){
-			for (size_t j = 0 ; j<vec[i].size()-1;j++){
-          myfile << vec[i][j];
-        }
-        myfile << endl;
-		}
-		myfile.close();
-}
-
-void readFile(const string readFile,vector<vector<char> > &big){
-  vector<char> small;
+void readFile(const string readFile,vector<vector<bool> > &big)//Takes a string, and a vector of vectors
+{
+  vector<bool> small;
   string Rinp;
-
-  ifstream myfile(readFile);
-
+  ifstream myfile(readFile);// creates and object called myfile with the file path
   if(myfile.is_open()){
-    while(getline(myfile,Rinp)){
+    while(getline(myfile,Rinp)){//While myfile is being read into string Rinp
         if(Rinp.length()==0){
           break;
           }
-        addtoSmall(Rinp,small);
-        big.push_back(small);
-        small.clear();
+        addtoSmall(Rinp,small);//Takes string Rinp and vector small, and then makes small contain every char of Rinp as a element of small
+        big.push_back(small);//Takes the vector we inputted and creates an element containing small(a vector of chars)
+        small.clear();//clears all elements from small
       }
   myfile.close();
   }
 }
 
-int main(int argc, char const *argv[])
+size_t nbrCount(int row, int col, const vector<vector<bool> > g)
+/*Takes a row and a column(which is specified by the two 'for' loops in int main, and a vector of vectors*/
 {
-
-string inFile;
-string ofile;
-//main vector of vectors
-vector<vector<char> > mainVec;
-
-
-
-
-//For DEBUGGING purposes
-
-  cout<<"Please enter the name of file you want to read\n";
-  cin >> inFile;
-
-  readFile(inFile,mainVec);
-
-
-  cout<<"enter where you want to transfer\n";
-  cin >> ofile;
-
-  outFile(ofile,mainVec);
-
-
-return 0;
-
-
+  size_t count = 0;
+  const size_t rowTotal = g.size();
+  const size_t colTotal = g[0].size();
+  for(int i = row-1; i <= (row+1); i++){
+    for (int j = col-1; j<= col+1; j++){
+            //Starts counting at top left of cell in question
+            if(i == row && j == col){
+                continue;//Skips cell in question;A cell can't be it's own neighbor.
+            }
+            count += g[(i+rowTotal)%rowTotal][(j+colTotal)%colTotal];
+            /*Since every element of the vector of vector is BOOLEAN, we can just add the values of the live neighboring cells(1) to count.*/
+    }
+  }
+    return count;
 }
 
+void lifeLogic(vector<vector<bool> > &world)//Applies logic
+{
+    vector<vector<bool> > worldIntial = world;
+    for (int i = 0; i < world.size(); i++){
+        for (int j = 0; j < world[0].size(); j++){
+            if(nbrCount(i,j,worldIntial) < 2){
+                world[i][j] = false;
+                /*Dies to underpopulation*/
+            }
+                else if(nbrCount(i,j,worldIntial) > 3){
+                world[i][j] = false;
+                /*Dies to overpopulation*/
+            }
+                else if(nbrCount(i,j,worldIntial) == 3){
+                world[i][j] = true;
+                /*Birth*/
+            }
+        }
+    }
+}
+
+void outFile(const string fname,vector<vector<bool> > vec){//Takes a string(Most likely file location) and a vector of vectors
+    ofstream myfile;//Creates object myfile to be written
+    myfile.open(fname);//Opens fname, which would be the file path
+    for (int i=0; i<vec.size(); i++){
+            for (int j=0 ; j<vec[i].size(); j++){
+          myfile << vec[i][j];//Writes every char in the file chosen into a vector of vectors
+        }
+      myfile << endl;
+        }
+        myfile.close();
+}
+
+int main(int argc, char *argv[])
+{
+
+  vector<vector<bool> > mainVec;
+
+    static struct option long_opts[] = {
+        {"seed",    required_argument, 0, 's'},
+        {"world",   required_argument, 0, 'w'},
+        {"fast-fw", required_argument, 0, 'f'},
+        {"help",    no_argument,       0, 'h'},
+        {0,0,0,0}
+    };
+    char c;
+    int opt_index = 0;
+    while ((c = getopt_long(argc, argv, "hs:w:f:", long_opts, &opt_index)) != -1) {
+        switch (c) {
+            case 'h':
+                printf(usage,argv[0]);
+                return 0;
+            case 's':
+                inFile = optarg;
+                break;
+            case 'w':
+                ofile = optarg;
+                break;
+            case 'f':
+                max_gen = atoi(optarg);
+                break;
+            case '?':
+                printf(usage,argv[0]);
+                return 1;
+        }
+    }
+    // This reads a file and stores it into the vector world      "mainVec"
+
+
+  //This goes through a certain amount of generations defined by the user MODE 1
+if(inFile != "/file/path/to/be/read"){
+    if(ofile != "/file/path/to/be/written"){
+
+        if (max_gen == 0){
+            readFile(inFile,mainVec);
+            while (true){
+            lifeLogic(mainVec);
+            sleep(1);
+            outFile(ofile,mainVec);
+            }
+        }
+    }
+}
+ //This goes through a certain amount of generations defined by the user MODE 2
+    if(inFile != "/file/path/to/be/read"){
+      if(ofile != "/file/path/to/be/written"){
+          readFile(inFile,mainVec);
+        if (max_gen > 0){
+            for(size_t i = 0 ; i < max_gen ; i++){
+            lifeLogic(mainVec);
+            }
+            outFile(ofile,mainVec);
+            }
+        }
+    }
+ //This goes through a certain amount of generations defined by the user WRITE TO STDIN AND OUT
+     if(inFile == "-"){
+         cin >> inFile;
+         readFile(inFile,mainVec);
+      if(ofile == "-"){
+
+        max_gen = 1;
+        if (max_gen >= 1){
+            for(size_t i = 0 ; i < max_gen ; i++){
+            lifeLogic(mainVec);
+            }
+            for(size_t j = 0 ; j < mainVec.size(); j++){
+                for(size_t k = 0 ; k < mainVec[j].size() ; k++){
+                    cout << mainVec[j][k];
+                    }
+                    cout<<endl;
+                }
+            }
+        }
+    }
+
+}
