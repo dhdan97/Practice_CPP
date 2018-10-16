@@ -14,10 +14,13 @@
  https://syntaxdb.com/ref/cpp/vectors
  http://www.cplusplus.com/forum/beginner/231421/
  https://en.wikibooks.org/wiki/C%2B%2B_Programming/Code/IO#fstream
+ Classmates from csc103
+ My family and friends
+ God
  *
  *
  * Finally, please indicate approximately how many hours you spent on this:
- * #hours:~30 hrs
+ * #hours:~35 hrs
  */
 
 #include <vector>
@@ -44,14 +47,14 @@ size_t max_gen = 0;
 vector<vector<bool> > mainVec;//Main vector of vectors to be read and used to write to
 
 void addtoSmall(string inp,vector<bool>& small2){//takes a string and a vector to change said vector such that every char in the string is now an element of the vector UPDATE: Should now CONVERT files with '.' and '0' INTO BOOLEAN when pushing back.
-    for (size_t i=0; i<=inp.length(); i++){
+	for (size_t i=0; i<=inp.length(); i++){
     if(inp[i] == '.'){
       small2.push_back(false); /* dead x_x */
-    }
+			}
     if(inp[i] == 'O'){
       small2.push_back(true); /* alive 8D */
-    }
-    }
+			}
+		}
 }
 
 void readFile(const string readFile,vector<vector<bool> > &big)//Takes a string, and a vector of vectors
@@ -88,55 +91,50 @@ size_t nbrCount(int row, int col, const vector<vector<bool> > g)
             /*Since every element of the vector of vector is BOOLEAN, we can just add the values of the live neighboring cells(1) to count.*/
     }
   }
-    return count;
+	return count;
 }
 
 void lifeLogic(vector<vector<bool> > &world)//Applies logic
 {
-    vector<vector<bool> > worldIntial = world;
-    for (int i = 0; i < world.size(); i++){
-        for (int j = 0; j < world[0].size(); j++){
-            if(nbrCount(i,j,worldIntial) < 2){
-                world[i][j] = false;
-                /*Dies to underpopulation*/
-            }
-                else if(nbrCount(i,j,worldIntial) > 3){
-                world[i][j] = false;
-                /*Dies to overpopulation*/
-            }
-                else if(nbrCount(i,j,worldIntial) == 3){
-                world[i][j] = true;
-                /*Birth*/
-            }
-        }
-    }
+	vector<vector<bool> > worldIntial = world;
+	for(size_t i = 0; i < world.size(); i++){
+		for (size_t j = 0; j < world[0].size(); j++){
+			if(nbrCount(i,j,worldIntial) < 2){
+				world[i][j] = false;/*Dies to underpopulation*/
+				}
+				else if(nbrCount(i,j,worldIntial) > 3){
+					world[i][j] = false;/*Dies to overpopulation*/
+					}
+					else if(nbrCount(i,j,worldIntial) == 3){
+						world[i][j] = true;/*Birth*/
+			}
+		}
+	}
 }
 
 void outFile(const string fname,vector<vector<bool> > vec){//Takes a string(Most likely file location) and a vector of vectors
-    ofstream myfile;//Creates object myfile to be written
-    myfile.open(fname);//Opens fname, which would be the file path
-    for (int i=0; i<vec.size(); i++){
-            for (int j=0 ; j<vec[i].size(); j++){
-          myfile << vec[i][j];//Writes every char in the file chosen into a vector of vectors
-        }
-      myfile << endl;
-        }
-        myfile.close();
+	ofstream myfile;//Creates object myfile to be written
+	myfile.open(fname);//Opens fname, which would be the file path
+	for (size_t i=0; i<vec.size(); i++){
+		for (size_t j=0 ; j<vec[i].size(); j++){
+			myfile << vec[i][j];//Writes every char in the file chosen into a vector of vectors
+			}
+			myfile << endl;
+		}
+		myfile.close();
 }
 
 int main(int argc, char *argv[])
 {
-
-  vector<vector<bool> > mainVec;
-
-    static struct option long_opts[] = {
+	vector<vector<bool> > mainVec;
+	static struct option long_opts[] = {
         {"seed",    required_argument, 0, 's'},
         {"world",   required_argument, 0, 'w'},
         {"fast-fw", required_argument, 0, 'f'},
         {"help",    no_argument,       0, 'h'},
         {0,0,0,0}
     };
-    char c;
+		char c;
     int opt_index = 0;
     while ((c = getopt_long(argc, argv, "hs:w:f:", long_opts, &opt_index)) != -1) {
         switch (c) {
@@ -155,56 +153,108 @@ int main(int argc, char *argv[])
             case '?':
                 printf(usage,argv[0]);
                 return 1;
-        }
-    }
-    // This reads a file and stores it into the vector world      "mainVec"
+						}
+					}
+if (inFile != "/file/path/to/be/read"){
+    readFile(inFile, mainVec);
 
-
-  //This goes through a certain amount of generations defined by the user MODE 1
-if(inFile != "/file/path/to/be/read"){
-    if(ofile != "/file/path/to/be/written"){
-
-        if (max_gen == 0){
-            readFile(inFile,mainVec);
-            while (true){
-            lifeLogic(mainVec);
-            sleep(1);
-            outFile(ofile,mainVec);
-            }
-        }
-    }
+if ((ofile != "/file/path/to/be/written") && (ofile != "-")){
+	while (true){
+		lifeLogic(mainVec);
+		sleep(1);
+		outFile(ofile,mainVec);
+			}
 }
- //This goes through a certain amount of generations defined by the user MODE 2
-    if(inFile != "/file/path/to/be/read"){
-      if(ofile != "/file/path/to/be/written"){
-          readFile(inFile,mainVec);
-        if (max_gen > 0){
-            for(size_t i = 0 ; i < max_gen ; i++){
-            lifeLogic(mainVec);
-            }
-            outFile(ofile,mainVec);
-            }
-        }
-    }
- //This goes through a certain amount of generations defined by the user WRITE TO STDIN AND OUT
-     if(inFile == "-"){
-         cin >> inFile;
-         readFile(inFile,mainVec);
-      if(ofile == "-"){
+if ((ofile == "/file/path/to/be/written") && (ofile != "-")){
+    cout<<"PLEASE INSERT A VALID OUTPUT FILE"<<endl;
+    cout << "lol";
+}
 
-        max_gen = 1;
-        if (max_gen >= 1){
-            for(size_t i = 0 ; i < max_gen ; i++){
-            lifeLogic(mainVec);
-            }
-            for(size_t j = 0 ; j < mainVec.size(); j++){
-                for(size_t k = 0 ; k < mainVec[j].size() ; k++){
-                    cout << mainVec[j][k];
-                    }
-                    cout<<endl;
-                }
-            }
-        }
-    }
+if (ofile == "-"){
+	for(size_t i = 0 ; i < max_gen ; i++){
+		lifeLogic(mainVec);
+				}
+	for(size_t j = 0 ; j < mainVec.size(); j++){
+		for(size_t k = 0 ; k < mainVec[j].size() ; k++){
+			cout << mainVec[j][k];
+					}
+		cout<<"\n";
+		}
+	}
+}
+
+if(inFile == "/file/path/to/be/read"){
+    cin >> inFile;
+    readFile(inFile, mainVec);
+if ((ofile != "/file/path/to/be/written") && (ofile != "-")){
+	for(size_t i = 0 ; i < max_gen ; i++){
+		lifeLogic(mainVec);
+				}
+    outFile(ofile,mainVec);
+}
+if ((ofile == "/file/path/to/be/written") && (ofile != "-")){
+	for(size_t i = 0 ; i < max_gen ; i++){
+		lifeLogic(mainVec);
+		}
+ 	for(size_t j = 0 ; j < mainVec.size(); j++){
+		for(size_t k = 0 ; k < mainVec[j].size() ; k++){
+			cout << mainVec[j][k];
+					}
+		cout<<"\n";
+	}
+
+}
+
+if (ofile == "-"){
+	for(size_t i = 0 ; i < max_gen ; i++){
+		lifeLogic(mainVec);
+		}
+ 	for(size_t j = 0 ; j < mainVec.size(); j++){
+		for(size_t k = 0 ; k < mainVec[j].size() ; k++){
+			cout << mainVec[j][k];
+					}
+		cout<<"\n";
+	}
+}
+
+
+}
+
+if (inFile == "-"){
+cin >> inFile;
+readFile(inFile, mainVec);
+
+if ((ofile != "/file/path/to/be/written") && (ofile != "-")){
+	for(size_t i = 0 ; i < max_gen ; i++){
+		lifeLogic(mainVec);
+		}
+    outFile(ofile,mainVec);
+}
+if ((ofile == "/file/path/to/be/written") && (ofile != "-")){
+for(size_t i = 0 ; i < max_gen ; i++){
+		lifeLogic(mainVec);
+		}
+ 	for(size_t j = 0 ; j < mainVec.size(); j++){
+		for(size_t k = 0 ; k < mainVec[j].size() ; k++){
+			cout << mainVec[j][k];
+					}
+		cout<<"\n";
+	}
+}
+
+if (ofile == "-"){
+for(size_t i = 0 ; i < max_gen ; i++){
+		lifeLogic(mainVec);
+		}
+ 	for(size_t j = 0 ; j < mainVec.size(); j++){
+		for(size_t k = 0 ; k < mainVec[j].size() ; k++){
+			cout << mainVec[j][k];
+					}
+		cout<<"\n";
+	}//DOUBLE FOR LOOP TO PRINT
+}
+
+
+}
 
 }
